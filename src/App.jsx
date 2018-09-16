@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import './assets/styles/App.css';
 import axios from 'axios';
 
+import Header from './components/Header.jsx';
+
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      address: '',
+      area: '',
       text: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,16 +25,14 @@ class App extends Component {
 
     if (validPostcode(this.state.text)) {
       axios.get(endpoint)
-        .then(response => this.setState({address: response.data.result.admin_district}));
+        .then(response => this.setState({area: response.data.result.admin_district}));
     }
   }
 
   render() {
     return (
       <div className="App">
-        <header>
-          <h1>Takeaway Menu App</h1>
-        </header>
+        <Header />
         <main>
           <form onSubmit={(e) => {e.preventDefault(); this.handleSubmit()}}>
             <label>
@@ -41,7 +41,7 @@ class App extends Component {
             </label>
             <input type="submit" value="Submit"/>
           </form>
-          <p>Here are the takeaways for {this.state.address}:</p>
+          { this.state.area ? <p>Here are the takeaways for {this.state.area}:</p> : '' }
         </main>
       </div>
     );
